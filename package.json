@@ -1,0 +1,25 @@
+{
+  "name": "tinyurl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KodaKodama/tinyUrl.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KodaKodama/tinyUrl/issues"
+  },
+  "homepage": "https://github.com/KodaKodama/tinyUrl#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.3.0",
+    "short-unique-id": "^5.0.3"
+  }
+}
