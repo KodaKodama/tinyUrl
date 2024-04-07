@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>TinyURL</title>
+  <link rel="stylesheet" href="style.css"> </head>
+<body>
+  <main class="container">
+    <h1 class="title">Make Your URLs Tiny</h1>
+    <form class="url-form" action="/urlapi" method="post"> <div class="input-group">
+        <input type="url" class="url-input" name="url" placeholder="Paste your long URL here" required autofocus>
+        <button type="submit" class="submit-button">Shrink It!</button>
+      </div>
+    </form>
+    <section class="result-section"></section>
+  </main>
+
+  <script>
+    const form = document.querySelector('.url-form');
+    const resultSection = document.querySelector('.result-section');
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+
+      const input = document.querySelector('.url-input');
+      fetch('/urlapi', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          longUrl: input.value
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log(data.shortUrl);
+        resultSection.innerHTML = `
+          <div class="short-url-container">
+            <a href="${data.shortUrl}" target="_blank" class="short-url">${data.shortUrl}</a>
+            <button class="copy-button">Copy</button>
+          </div>
+        `;
+      })
+      .catch(console.error);
+    });
+
+    // Add functionality for copy button (optional)
+    const copyButtons = document.querySelectorAll('.copy-button');
+    copyButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const shortUrl = button.parentElement.querySelector('.short-url').textContent;
+        navigator.clipboard.writeText(shortUrl)
+          .then(() => {
+            console.log('URL copied to clipboard!');
+            // Optional: Add visual feedback for successful copy
+          })
+          .catch(err => {
+            console.error('Failed to copy URL:', err);
+          });
+      });
+    });
+  </script>
+</body>
+</html>
