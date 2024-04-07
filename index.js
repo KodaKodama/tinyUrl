@@ -7,7 +7,7 @@ app.use(express.static('static'));
 app.use(express.urlencoded({extended: false}));
 
 
-const PORT = 1330;
+const PORT = 1335;
 app.listen(PORT, ()=> {
     console.log('app is running at port=', PORT);
 })
