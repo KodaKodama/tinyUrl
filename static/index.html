@@ -20,10 +20,10 @@
   <script>
     const form = document.querySelector('.url-form');
     const resultSection = document.querySelector('.result-section');
-
+  
     form.addEventListener('submit', event => {
       event.preventDefault();
-
+  
       const input = document.querySelector('.url-input');
       fetch('/urlapi', {
         method: 'POST',
@@ -49,24 +49,22 @@
             <button class="copy-button">Copy</button>
           </div>
         `;
+        
+        // Add event listener for copy button after it's added to the DOM
+        const copyButton = resultSection.querySelector('.copy-button');
+        copyButton.addEventListener('click', () => {
+          const shortUrl = data.shortUrl;
+          navigator.clipboard.writeText(shortUrl)
+            .then(() => {
+              console.log('URL copied to clipboard!');
+              // Optional: Add visual feedback for successful copy
+            })
+            .catch(err => {
+              console.error('Failed to copy URL:', err);
+            });
+        });
       })
       .catch(console.error);
-    });
-
-    // Add functionality for copy button (optional)
-    const copyButtons = document.querySelectorAll('.copy-button');
-    copyButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const shortUrl = button.parentElement.querySelector('.short-url').textContent;
-        navigator.clipboard.writeText(shortUrl)
-          .then(() => {
-            console.log('URL copied to clipboard!');
-            // Optional: Add visual feedback for successful copy
-          })
-          .catch(err => {
-            console.error('Failed to copy URL:', err);
-          });
-      });
     });
   </script>
 </body>
