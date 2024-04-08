@@ -5,7 +5,15 @@ const Url = require('../models/urlModel');
 const baseUrl = 'http://localhost:1335/urlapi/'
 
 // Generate a unique short ID with a length of 6
-// const generateShortId = () => nanoid(6);
+function generateShortId() {
+  let shortId;
+    // Generate a random number between 100000 (inclusive) and 999999 (exclusive)
+    shortId = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+
+    // Convert the number to a string and remove leading zeros (if any)
+    shortId = shortId.toString().padStart(6, '0');
+    return shortId;
+};
 
 router.post("/", async (req, res) => {
     try {
@@ -16,8 +24,7 @@ router.post("/", async (req, res) => {
     //     return res.json({ shortUrl: existingUrl.shortId }); // Return existing short URL
     //   }
 
-    //    const shortId = generateShortId();
-    const shortId = Math.random();
+    const shortId = generateShortId();
        const url = new Url({ longUrl, shortId });
       
     await url.save();
